@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="jdbc.properties" />
+
+<!--    设置全局配置-->
+    <settings>
+<!--     将下划线映射为驼峰形式-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+<!--        开启懒加载: 访问什么属性，就会执行相应的sql-->
+<!--        <setting name="lazyLoadingEnabled" value="true"/>-->
+    </settings>
+    
+    <typeAliases>
+        <package name="org.zgg.mybatis.bean"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <package name="org.zgg.mybatis.mapper"/>
+    </mappers>
+</configuration>

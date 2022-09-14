@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  MyBatis的各种查询功能-->
+
+<mapper namespace="org.zgg.mybatis.mapper.SelectMapper">
+
+    <!--
+          1、若查询出的数据只有一条
+              a>可以通过实体类对象接收
+              b>可以通过list集合接收
+              c>可以通过map集合接收
+
+        List<User> getUserById(@Param("id") Integer id);
+    -->
+    <select id="getUserById" resultType="User">
+        select * from t_user where id = #{id}
+    </select>
+
+    <!--
+        2、若查询出的数据有多条
+          a>可以通过实体类类型的list集合接收
+          b>可以通过map类型的list集合接收
+          c>可以在mapper接口的方法上添加@MapKey注解，此时就可以将每条数据转换的map集合作为值，
+            以某个字段的值作为键，【放在同一个map集合中】
+        注意：一定不能通过实体类对象接收，此时会抛异常TooManyResultsException
+
+        List<User> getAllUser();
+    -->
+    <select id="getAllUser" resultType="User">
+        select * from t_user
+    </select>
+
+    <!--
+        查出的数据是一个整型
+        MyBatis中设置了默认的类型别名
+            java.lang.Integer ==》int,integer
+            int ==》_int,_integer
+            Map ==》map
+            String ==》string
+
+        Integer getCount();
+    -->
+    <select id="getCount" resultType="_int">
+        select count(*) from t_user
+    </select>
+
+    <!-- Map<String, Object> getUserByIdToMap(@Param("id") Integer id); -->
+    <select id="getUserByIdToMap" resultType="map">
+        select * from t_user where id = #{id}
+    </select>
+
+    <!--
+        List<Map<String, Object>> getAllUserToMap1();
+
+        输出：
+        [{password=123456, sex=男, id=1, age=23, email=12345@qq.com, username=admin},
+        {password=123456, sex=男, id=2, age=23, email=12345@qq.com, username=zhangsan},
+        {password=345, sex=男, id=3, age=12, email=3456@qq.com, username=lisi}]
+
+        将表中的数据以map集合的方式查询，一条数据对应一个map；
+        若有多条数据，就会产生多个map集合，此时可以将这些map放在一个list集合中获取
+    -->
+    <select id="getAllUserToMap1" resultType="map">
+        select * from t_user
+    </select>
+
+    <!--
+        Map<String, Object> getAllUserToMap2();
+
+        输出： 以 @MapKey 指定的id为键，内容为值
+        {1={password=123456, sex=男, id=1, age=23, email=12345@qq.com, username=admin},
+        2={password=123456, sex=男, id=2, age=23, email=12345@qq.com, username=zhangsan},
+        3={password=345, sex=男, id=3, age=12, email=3456@qq.com, username=lisi}}
+
+        将表中的数据以map集合的方式查询，一条数据对应一个map；
+        若有多条数据，就会产生多个map集合，并且最终要以一个map的方式返回数据，
+        此时需要通过@MapKey注解设置map集合的键，值是每条数据所对应的map集合
+    -->
+    <select id="getAllUserToMap2" resultType="map">
+        select * from t_user
+    </select>
+</mapper>

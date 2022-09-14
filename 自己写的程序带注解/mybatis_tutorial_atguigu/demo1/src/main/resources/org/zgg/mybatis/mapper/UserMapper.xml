@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE org.zgg.mybatis.mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-org.zgg.mybatis.mapper.dtd">
+
+<!--
+一个映射文件对应一个实体类，对应一张表的操作(mapper接口);
+MyBatis映射文件用于编写SQL，访问以及操作表中的数据
+-->
+
+<org.zgg.mybatis.mapper namespace="org.zgg.mybatis.org.zgg.mybatis.mapper.UserMapper">
+    <insert id="insertUser">
+        insert into t_user values(null,'admin','123456',23,'男','12345@qq.com')
+    </insert>
+
+    <update id="updateUser">
+        update t_user set username='zhangsan' where id=2
+    </update>
+
+    <delete id="deleteUser">
+        delete from t_user where id=1
+    </delete>
+
+    <!--
+        查询功能的标签必须设置resultType或resultMap
+        resultType：设置默认的映射关系 （字段名和属性名匹配的上）
+        resultMap：设置自定义的映射关系
+    -->
+    <select id="getUserById" resultType="User">
+        select * from t_user where id=1
+    </select>
+
+    <select id="getUsers" resultType="User">
+        select * from t_user
+    </select>
+</org.zgg.mybatis.mapper>
